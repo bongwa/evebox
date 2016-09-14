@@ -1,5 +1,5 @@
-hash: 2175df818215fc3782ce565fec1085c051fdd5f5b4d2174639c41e434b347273
-updated: 2016-09-04T16:15:59.786610562-06:00
+hash: bc3b0b944b3f591d6a776c5c7b1d6e41f9319490a7d382d6ebcd126960d74e5d
+updated: 2016-09-12T22:51:17.150475002-06:00
 imports:
 - name: github.com/daaku/go.zipexe
   version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
@@ -21,6 +21,10 @@ imports:
   version: 97448c91aac742cbca3d020b3e769013a420a06f
 - name: github.com/kardianos/osext
   version: c2c54e542fb797ad986b31721e1baedf214ca413
+- name: github.com/mattn/go-sqlite3
+  version: 3fb7a0e792edd47bf0cf1e919dfc14e2be412e15
+- name: github.com/satori/go.uuid
+  version: 0aa62d5ddceb50dbcb909d790b5345affd3669b6
 - name: golang.org/x/net
   version: f841c39de738b1d0df95b5a7187744f0e03d8112
   subpackages:

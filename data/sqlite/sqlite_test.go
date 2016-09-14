@@ -1,0 +1,101 @@
+package sqlite
+
+import (
+	"testing"
+	"log"
+	"io/ioutil"
+	"os"
+	"bufio"
+	"encoding/json"
+	"github.com/satori/go.uuid"
+	"time"
+)
+
+func TestInit(t *testing.T) {
+	log.Println("TestInit")
+
+	db := Init()
+
+	v1, err := os.Open("./v1.sql")
+	if err != nil {
+		log.Fatal(err);
+	}
+	buf, err := ioutil.ReadAll(v1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(buf)
+
+	res, err := db.Exec(string(buf))
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(res)
+
+	file, err := os.Open("/var/log/suricata/eve.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(file)
+
+	reader := bufio.NewReader(file)
+	decoder := json.NewDecoder(reader)
+	decoder.UseNumber()
+
+	var count uint64 = 0
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for {
+
+		var event map[string]interface{}
+		err = decoder.Decode(&event)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		buf, err := json.Marshal(event)
+		if err != nil {
+			log.Println(err)
+		}
+
+		id := uuid.NewV4()
+
+		timestamp := event["timestamp"].(string)
+		timestamp = FormatTimestamp(timestamp)
+
+		_, err = tx.Exec("insert into events values ($1, $2, $3)", id, timestamp, buf)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		_, err = tx.Exec("insert into events_fts values ($1, $2)", id, buf)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		count++
+
+		if count % 10000 == 0 {
+			log.Println(count)
+
+			tx.Commit()
+			tx, err = db.Begin()
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
+}
+
+func FormatTimestamp(timestamp string) string {
+	var RFC3339Nano_Modified string = "2006-01-02T15:04:05.999999999Z0700"
+	result, err := time.Parse(RFC3339Nano_Modified, timestamp)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return result.UTC().Format("2006-01-02T15:04:05.999999999")
+}

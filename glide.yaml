@@ -12,3 +12,5 @@ import:
 - package: github.com/google/gopacket
 - package: github.com/gorilla/mux
 - package: github.com/gorilla/context
+- package: github.com/mattn/go-sqlite3
+- package: github.com/satori/go.uuid
