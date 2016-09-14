@@ -1,6 +1,8 @@
-hash: bc3b0b944b3f591d6a776c5c7b1d6e41f9319490a7d382d6ebcd126960d74e5d
-updated: 2016-09-12T22:51:17.150475002-06:00
+hash: 35dd91479d918e1a633815f6db421324059c988bf6dd1d074b07502d4ad2005e
+updated: 2016-09-14T09:12:46.845828015-06:00
 imports:
+- name: github.com/blevesearch/bleve
+  version: d01ff4ad8a90828665a5fd8fb556f743350a257a
 - name: github.com/daaku/go.zipexe
   version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
 - name: github.com/GeertJohan/go.rice

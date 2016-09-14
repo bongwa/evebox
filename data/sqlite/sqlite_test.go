@@ -5,10 +5,10 @@ import (
 	"log"
 	"io/ioutil"
 	"os"
-	"bufio"
 	"encoding/json"
 	"github.com/satori/go.uuid"
 	"time"
+	"evebox/evereader"
 )
 
 func TestInit(t *testing.T) {
@@ -32,15 +32,10 @@ func TestInit(t *testing.T) {
 	}
 	log.Println(res)
 
-	file, err := os.Open("/var/log/suricata/eve.json")
+	eveReader, err := evereader.New("/var/log/suricata/eve.json")
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(file)
-
-	reader := bufio.NewReader(file)
-	decoder := json.NewDecoder(reader)
-	decoder.UseNumber()
 
 	var count uint64 = 0
 
@@ -51,11 +46,7 @@ func TestInit(t *testing.T) {
 
 	for {
 
-		var event map[string]interface{}
-		err = decoder.Decode(&event)
-		if err != nil {
-			log.Fatal(err)
-		}
+		event, err := eveReader.Next()
 
 		buf, err := json.Marshal(event)
 		if err != nil {
@@ -79,7 +70,7 @@ func TestInit(t *testing.T) {
 
 		count++
 
-		if count % 10000 == 0 {
+		if count % 1000 == 0 {
 			log.Println(count)
 
 			tx.Commit()
