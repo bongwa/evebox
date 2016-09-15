@@ -38,11 +38,6 @@ func TestInit(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	err = eveReader.SkipTo(2036640 - 0)
-	if err != nil {
-		log.Fatal("Failed to skip to location:", err)
-	}
-
 	var count uint64 = 0
 
 	tx, err := db.Begin()
