@@ -9,6 +9,7 @@ import (
 	"github.com/satori/go.uuid"
 	"time"
 	"evebox/evereader"
+	"io"
 )
 
 func TestInit(t *testing.T) {
@@ -37,6 +38,11 @@ func TestInit(t *testing.T) {
 		log.Fatal(err)
 	}
 
+	err = eveReader.SkipTo(2036640 - 0)
+	if err != nil {
+		log.Fatal("Failed to skip to location:", err)
+	}
+
 	var count uint64 = 0
 
 	tx, err := db.Begin()
@@ -47,6 +53,12 @@ func TestInit(t *testing.T) {
 	for {
 
 		event, err := eveReader.Next()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			log.Fatal(err)
+		}
 
 		buf, err := json.Marshal(event)
 		if err != nil {
@@ -72,6 +84,8 @@ func TestInit(t *testing.T) {
 
 		if count % 1000 == 0 {
 			log.Println(count)
+			pos := eveReader.Pos()
+			log.Printf("File position: %d", pos)
 
 			tx.Commit()
 			tx, err = db.Begin()
@@ -80,6 +94,8 @@ func TestInit(t *testing.T) {
 			}
 		}
 	}
+
+	log.Println("Events read", count)
 }
 
 func FormatTimestamp(timestamp string) string {

@@ -34,6 +34,8 @@ func TestStuff(t *testing.T) {
 		count++
 		if count % 100 == 0 {
 			log.Println(count)
+			pos, _ := eveReader.Pos()
+			log.Printf("File position: %d", pos)
 		}
 	}
 }
