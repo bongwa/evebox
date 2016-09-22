@@ -35,17 +35,17 @@ import (
 )
 
 type EveReader struct {
-	filename string
-	file     *os.File
-	reader   *bufio.Reader
-	lineno   uint64
-	size     int64
+	path   string
+	file   *os.File
+	reader *bufio.Reader
+	lineno uint64
+	size   int64
 }
 
 func New(path string) (*EveReader, error) {
 
 	eveReader := EveReader{
-		filename: path,
+		path: path,
 	}
 	err := eveReader.OpenFile()
 	if err != nil {
@@ -55,8 +55,12 @@ func New(path string) (*EveReader, error) {
 	return &eveReader, nil
 }
 
+func (er *EveReader) GetFileInfo() (os.FileInfo, error) {
+	return er.file.Stat()
+}
+
 func (er *EveReader) OpenFile() error {
-	file, err := os.Open(er.filename)
+	file, err := os.Open(er.path)
 	if err != nil {
 		return err
 	}
@@ -72,6 +76,10 @@ func (er *EveReader) OpenFile() error {
 	er.lineno = 0
 
 	return nil
+}
+
+func (er *EveReader) Close() {
+	er.file.Close()
 }
 
 func (er *EveReader) Reopen() error {
@@ -107,7 +115,7 @@ func (er *EveReader) IsNewFile() bool {
 	if err != nil {
 		return false
 	}
-	fileInfo2, err := os.Stat(er.filename)
+	fileInfo2, err := os.Stat(er.path)
 	if err != nil {
 		return false
 	}
