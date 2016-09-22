@@ -1,4 +1,4 @@
-// +build linux AND cgo
+// +build cgo
 
 package sqlite
 
@@ -15,6 +15,5 @@ func Init() *sql.DB {
 	if err != nil {
 		log.Fatal(err);
 	}
-	log.Println(db)
 	return db
 }
