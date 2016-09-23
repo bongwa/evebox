@@ -28,10 +28,10 @@ package evereader
 
 import (
 	"os"
-	"gopkg.in/square/go-jose.v1/json"
 	"bufio"
 	"bytes"
 	"io"
+	"encoding/json"
 )
 
 type EveReader struct {

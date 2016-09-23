@@ -7,7 +7,6 @@ import (
 	"os"
 	"encoding/json"
 	"github.com/satori/go.uuid"
-	"time"
 	"evebox/evereader"
 	"io"
 )
@@ -15,7 +14,10 @@ import (
 func TestInit(t *testing.T) {
 	log.Println("TestInit")
 
-	db := Init()
+	db, err := Init()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	v1, err := os.Open("./v1.sql")
 	if err != nil {
@@ -91,13 +93,4 @@ func TestInit(t *testing.T) {
 	}
 
 	log.Println("Events read", count)
-}
-
-func FormatTimestamp(timestamp string) string {
-	var RFC3339Nano_Modified string = "2006-01-02T15:04:05.999999999Z0700"
-	result, err := time.Parse(RFC3339Nano_Modified, timestamp)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return result.UTC().Format("2006-01-02T15:04:05.999999999")
 }

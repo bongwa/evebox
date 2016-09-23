@@ -2,11 +2,12 @@
 
 package sqlite
 
-import "log"
-import "database/sql"
+import (
+	"database/sql"
+	"fmt"
+)
 
 // Stub for builds with no SQLite.
-func Init() *sql.DB {
-	log.Panic("SQLite not supported in this build.")
-	return nil
+func Init() (*sql.DB, error) {
+	return nil, fmt.Errorf("SQLite not supported in this build.")
 }

@@ -4,6 +4,7 @@ import (
 	"testing"
 	"log"
 	"encoding/json"
+	"io"
 )
 
 func _TestElasticSearch(t *testing.T) {
@@ -74,4 +75,25 @@ func _TestSearch(t *testing.T) {
 	//}
 
 	log.Println(query)
+}
+
+type FakeReader struct {
+	count int
+}
+
+func (fr *FakeReader) Read(p []byte) (int, error) {
+	if fr.count > 3 {
+		return 0, io.EOF
+	}
+	fr.count++
+	log.Println("Fake reader: array size:", len(p))
+	log.Println("Capacity:", cap(p))
+	p[0] = 'A'
+	return 1, nil
+}
+
+func TestBulk(t *testing.T) {
+	fakeReader := &FakeReader{}
+	es := New("http://10.16.1.10:9200")
+	es.Bulk(fakeReader)
 }
