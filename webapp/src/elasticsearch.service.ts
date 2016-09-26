@@ -503,14 +503,14 @@ export class ElasticSearchService {
                                     aggs: {
                                         newest: {
                                             top_hits: {
-                                                sort: [{"@timestamp": {order: "desc"}}],
+                                                sort: [{"timestamp": {order: "desc"}}],
                                                 size: 1
                                             }
                                         },
                                         oldest: {
                                             top_hits: {
                                                 sort: [
-                                                    {"@timestamp": {order: "asc"}}
+                                                    {"timestamp": {order: "asc"}}
                                                 ],
                                                 size: 1
                                             }
@@ -571,7 +571,7 @@ export class ElasticSearchService {
                             // The newest (most recent timestamp).
                             newestTs: <string>dest.newest.hits.hits[0]._source.timestamp,
 
-                            // The oldest timestampa.
+                            // The oldest timestamp.
                             oldestTs: <string>dest.oldest.hits.hits[0]._source.timestamp,
 
                             // The newest occurrence of the event.
@@ -596,6 +596,8 @@ export class ElasticSearchService {
                 let y = moment(b.newestTs);
                 return y.diff(x);
             });
+
+            console.log(events);
 
             return events;
 

@@ -30,26 +30,12 @@ type ElasticSearch struct {
 }
 
 func New(url string) *ElasticSearch {
-
 	return &ElasticSearch{
 		baseUrl:url,
-		httpClient:&http.Client{},
-		index: "logstash-*",
+		httpClient:&http.Client{
+		},
+		index: "logstash",
 	}
-}
-
-func (es *ElasticSearch) Bulk(reader io.Reader) (error) {
-
-	request, err := http.NewRequest("POST", fmt.Sprintf("%s/_bulk", es.baseUrl), reader)
-	if err != nil {
-		return err
-	}
-	_, err = es.httpClient.Do(request)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func (es *ElasticSearch) Search(query interface{}) (*SearchResponse, error) {

@@ -32,6 +32,7 @@ import (
 	"bytes"
 	"io"
 	"encoding/json"
+	"evebox/eve"
 )
 
 type EveReader struct {
@@ -122,7 +123,7 @@ func (er *EveReader) IsNewFile() bool {
 	return !os.SameFile(fileInfo1, fileInfo2)
 }
 
-func (er *EveReader) Next() (map[string]interface{}, error) {
+func (er *EveReader) Next() (eve.RawEveEvent, error) {
 
 	// Check for file truncation.
 	fileInfo, err := er.file.Stat()
@@ -136,7 +137,7 @@ func (er *EveReader) Next() (map[string]interface{}, error) {
 	}
 	er.size = fileInfo.Size()
 
-	var event map[string]interface{}
+	var event eve.RawEveEvent
 
 	line, err := er.reader.ReadBytes('\n')
 	if err != nil {
