@@ -1,0 +1,16 @@
+[server]
+url = "http://10.16.1.10:5636"
+
+[input]
+paths = [
+      "/var/log/suricata/eve.json",
+      ]
+
+# In the case of no existing bookmark or an invalid bookmark you can
+# choose to start reading at the beginning of the file or at the end.
+# End is the default.
+#
+# Valid values: beginning, end
+#start = beginning
+
+bookmark-dir = "/var/tmp"

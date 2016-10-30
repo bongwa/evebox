@@ -55,3 +55,15 @@ esimport:
 
   # Change the amount of events to batch per bulk request.
   #batch-size: 1000
+
+# Evebox Agent Configuration (not yet complete).
+agent:
+
+  server:
+    url: http://10.16.1.10:5636
+
+  input:
+    paths:
+      - /var/log/suricata/eve.json
+      - /var/log/suricata/external/eve.json
+    bookmark-dir: /var/tmp
