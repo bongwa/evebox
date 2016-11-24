@@ -1,6 +1,8 @@
-hash: 66578219b0c878dba498e14bb0a91dd8f75991df8ee5b3881c0767f23101b77e
-updated: 2016-11-13T23:16:28.653762453-06:00
+hash: b60ecbf06aeafa478cfaadcbeb45a4dfdf83e013aa46c27b17f9d7d5f0783bae
+updated: 2016-11-24T12:50:22.578868012-06:00
 imports:
+- name: github.com/blevesearch/bleve
+  version: 58fe9b95622221cf99e33df38892f556f1b7f4a3
 - name: github.com/daaku/go.zipexe
   version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
 - name: github.com/GeertJohan/go.rice
@@ -23,6 +25,8 @@ imports:
   version: c2c54e542fb797ad986b31721e1baedf214ca413
 - name: github.com/lib/pq
   version: d8eeeb8bae8896dd8e1b7e514ab0d396c4f12a1b
+  subpackages:
+  - oid
 - name: github.com/oschwald/geoip2-golang
   version: ccee6e9d9b1ee5cee16ac664bc1982952edfb13d
 - name: github.com/oschwald/maxminddb-golang
@@ -40,6 +44,10 @@ imports:
   subpackages:
   - unix
   - windows
+- name: gopkg.in/square/go-jose.v1
+  version: aa2e30fdd1fe9dd3394119af66451ae790d50e0d
+  subpackages:
+  - json
 - name: gopkg.in/yaml.v2
   version: a83829b6f1293c91addabc89d0571c246397bbf4
 testImports:
